@@ -1,0 +1,30 @@
+name: build icc-brightness
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Check out source code
+        run: |
+          env
+          cat /proc/cpuinfo
+          tree -L 2 ${GITHUB_WORKSPACE}
+
+      - name: Build
+        run: |
+          sudo apt install build-essential liblcms2-dev libcolord-dev
+          make all
+
+      - name: Create archives
+        run: |
+          tar -c icc-brightness | gzip > icc-brightness-x86-84.tar.gz
+
+      - uses: actions/upload-artifact@main
+        with:
+          name: output
+          path: icc-brightness-x86-84.tar.gz

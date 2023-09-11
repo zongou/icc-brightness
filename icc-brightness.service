@@ -1,0 +1,13 @@
+# Contents of /lib/systemd/system/icc-brightness.service
+[Unit]
+Description=Change OLED display brightness
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/icc-brightness --watch
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
